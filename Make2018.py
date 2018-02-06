@@ -5,39 +5,6 @@ from datetime import *
 import itertools
 import roundRobin
 
-def overlap(c1, c2):
-    return c1[0] == c2[0] or c1[0] == c2[1] or c1[1] == c2[0] or c1[1] == c2[1]
-
-def group_overlap(group, c):
-    for g in group:
-        if overlap(g, c):
-            return True
-    return False
-
-def roundrobin(a):
-    combos = []
-    for c in itertools.combinations(a, 2):
-        combos.append(c)
-
-    print(len(combos))
-
-    desired_group_size = int(len(a) / 2)
-    groups = []
-    while combos:
-        print(len(combos))
-        print(combos)
-        new_group = [combos.pop(0)]
-        while len(new_group) < desired_group_size:
-            for i in range(len(combos), 0, -1):
-                c = combos[i - 1]
-                if not group_overlap(new_group, c):
-                    new_group.append(combos.pop(i - 1))
-        groups.append(new_group)
-
-        print(groups)
-
-    return groups
-
 def make_slots(dates, gyms, times):
     slots = []
 
@@ -65,7 +32,7 @@ def fill_slots(slots, rr_divs):
                     if slot_index >= len(slots):
                         return
 
-bbgc = Gym('Bellevue Boys and Girls\' Club', [1, 2, 3, 4])
+bbgc = Gym('BBGC', [1, 2, 3, 4])
 tyee = Gym('Tyee', [1, 2])
 
 ateams = []
