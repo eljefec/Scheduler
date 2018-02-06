@@ -63,7 +63,7 @@ def make_division(division, count):
         teams.append(Team(team_name, division))
     return teams
 
-def make_divisions():
+def make_divisions(gyms):
     div_team_count = {Div.A : 7,
                       Div.BPlus : 7,
                       Div.B: 8,
@@ -78,41 +78,42 @@ def make_divisions():
         for t in div_teams:
             teams[t.name] = t
 
+    bbgc = gyms['bbgc']
+    tyee = gyms['tyee']
+
     teams['B+4'].corecount = 2
     teams['B+7'].corecount = 1
     teams['B5'].corecount = 1
     teams['B8'].corecount = 1
 
-    return divisions
-
-def main():
-    bbgc = Gym('BBGC', [1, 2, 3, 4])
-    tyee = Gym('Tyee', [1, 2])
-
-    ateams = []
-
-    better = Team('Better Lucky Than Good', Div.A)
+    better = teams['A1']
     better.request_time(date(2018, 2, 11), Time.EARLY)
     better.request_time(date(2018, 3, 18), Time.EARLY)
 # TODO: Fill rest of requests
 
-    diva = Team('Diva Setters', Div.A)
+    diva = teams['A2']
     diva.prefer_time(Time.LATE)
 
-    up = Team('On the Up and Up', Div.A)
+    up = teams['A3']
     up.request_bye(date(2018, 3, 18))
     up.request_bye(date(2018, 3, 25))
 
-    fambam = Team('FamBam', Div.A)
+    fambam = teams['A4']
     fambam.prefer_gym(bbgc)
     fambam.prefer_time(Time.LATE)
 
-    ateams.append(better)
-    ateams.append(diva)
-    ateams.append(up)
-    ateams.append(fambam)
+    return divisions
 
-    divisions = make_divisions()
+def make_gyms():
+    bbgc = Gym('BBGC', [1, 2, 3, 4])
+    tyee = Gym('Tyee', [1, 2])
+
+    return {'bbgc': bbgc, 'tyee': tyee}
+
+def main():
+    gyms = make_gyms()
+
+    divisions = make_divisions(gyms)
 
     rr_divs = []
     for d in divisions:
@@ -126,9 +127,7 @@ def main():
     times = [time(1, 30),
              time(3, 15)]
 
-    gyms = [bbgc, tyee]
-
-    slots = make_slots(dates, gyms, times)
+    slots = make_slots(dates, list(gyms.values()), times)
 
     fill_slots(slots, rr_divs)
     for slot in slots:
