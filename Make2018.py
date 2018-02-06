@@ -16,21 +16,24 @@ def make_slots(dates, gyms, times):
 
     return slots
 
-def fill_slots(slots, rr_divs):
-    slot_index = 0
-
-    while rr_divs:
+def generate_matches(rr_divs):
+    group_index = 0
+    while True:
         for rr_div in rr_divs:
-            if slot_index >= len(slots):
-                return
-            if rr_div:
-                group = rr_div.pop(0)
-                for match in group:
-                    slots[slot_index].teamA = match[0]
-                    slots[slot_index].teamB = match[1]
-                    slot_index += 1
-                    if slot_index >= len(slots):
-                        return
+            group = rr_div[group_index % len(rr_div)]
+            for match in group:
+                yield match
+        group_index += 1
+
+def fill_slots(slots, rr_divs):
+    match_generator = generate_matches(rr_divs)
+
+    slot_index = 0
+    while slot_index < len(slots):
+        match = next(match_generator)
+        slots[slot_index].teamA = match[0]
+        slots[slot_index].teamB = match[1]
+        slot_index += 1
 
 def roundrobin(a):
     s = roundRobin.create_schedule(a)
