@@ -56,12 +56,34 @@ NAMES = {Div.A : 'A',
 def get_division_name(division):
     return NAMES[division]
 
-def make_teams(division, count):
-    teams = {}
+def make_division(division, count):
+    teams = []
     for i in range(1, count+1):
         team_name = get_division_name(division) + str(i)
-        teams[team_name] = Team(team_name, division)
+        teams.append(Team(team_name, division))
     return teams
+
+def make_divisions():
+    div_team_count = {Div.A : 7,
+                      Div.BPlus : 7,
+                      Div.B: 8,
+                      Div.C: 4}
+
+    divisions = []
+    teams = {}
+
+    for (div, count) in div_team_count.items():
+        div_teams = make_division(div, count)
+        divisions.append(div_teams)
+        for t in div_teams:
+            teams[t.name] = t
+
+    teams['B+4'].corecount = 2
+    teams['B+7'].corecount = 1
+    teams['B5'].corecount = 1
+    teams['B8'].corecount = 1
+
+    return divisions
 
 def main():
     bbgc = Gym('BBGC', [1, 2, 3, 4])
@@ -90,19 +112,7 @@ def main():
     ateams.append(up)
     ateams.append(fambam)
 
-    ateams = make_teams(Div.A, 7)
-    bplus = make_teams(Div.BPlus, 7)
-    bteams = make_teams(Div.B, 8)
-    cteams = make_teams(Div.C, 4)
-
-    divisions = [list(ateams.values()), list(bplus.values()), list(bteams.values()), list(cteams.values())]
-
-    teams = {**ateams, **bplus, **bteams, **cteams}
-
-    teams['B+4'].corecount = 2
-    teams['B+7'].corecount = 1
-    teams['B5'].corecount = 1
-    teams['B8'].corecount = 1
+    divisions = make_divisions()
 
     rr_divs = []
     for d in divisions:
