@@ -48,6 +48,21 @@ def roundrobin(a):
         filtered.append(new_round)
     return filtered
 
+NAMES = {Div.A : 'A',
+         Div.BPlus : 'B+',
+         Div.B : 'B',
+         Div.C : 'C'}
+
+def get_division_name(division):
+    return NAMES[division]
+
+def make_teams(division, count):
+    teams = {}
+    for i in range(1, count+1):
+        team_name = get_division_name(division) + str(i)
+        teams[team_name] = Team(team_name, division)
+    return teams
+
 def main():
     bbgc = Gym('BBGC', [1, 2, 3, 4])
     tyee = Gym('Tyee', [1, 2])
@@ -75,23 +90,19 @@ def main():
     ateams.append(up)
     ateams.append(fambam)
 
-    ateams = []
-    for i in range(1, 8):
-        ateams.append(Team('A' + str(i), Div.A))
+    ateams = make_teams(Div.A, 7)
+    bplus = make_teams(Div.BPlus, 7)
+    bteams = make_teams(Div.B, 8)
+    cteams = make_teams(Div.C, 4)
 
-    bplus = []
-    for i in range(1, 8):
-        bplus.append(Team('B+' + str(i), Div.BPlus))
+    divisions = [list(ateams.values()), list(bplus.values()), list(bteams.values()), list(cteams.values())]
 
-    bteams = []
-    for i in range(1, 9):
-        bteams.append(Team('B' + str(i), Div.B))
+    teams = {**ateams, **bplus, **bteams, **cteams}
 
-    cteams = []
-    for i in range(1, 5):
-        cteams.append(Team('C' + str(i), Div.C))
-
-    divisions = [ateams, bplus, bteams, cteams]
+    teams['B+4'].corecount = 2
+    teams['B+7'].corecount = 1
+    teams['B5'].corecount = 1
+    teams['B8'].corecount = 1
 
     rr_divs = []
     for d in divisions:
