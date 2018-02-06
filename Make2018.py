@@ -32,6 +32,19 @@ def fill_slots(slots, rr_divs):
                     if slot_index >= len(slots):
                         return
 
+def roundrobin(a):
+    s = roundRobin.create_schedule(a)
+    filtered = []
+    for round in s:
+        new_round = []
+        for match in round:
+            if match[0] == 'BYE' or match[1] == 'BYE':
+                pass
+            else:
+                new_round.append(match)
+        filtered.append(new_round)
+    return filtered
+
 bbgc = Gym('BBGC', [1, 2, 3, 4])
 tyee = Gym('Tyee', [1, 2])
 
@@ -58,6 +71,10 @@ ateams.append(diva)
 ateams.append(up)
 ateams.append(fambam)
 
+ateams = []
+for i in range(1, 8):
+    ateams.append(Team('A' + str(i), Div.A))
+
 bplus = []
 for i in range(1, 8):
     bplus.append(Team('B+' + str(i), Div.BPlus))
@@ -75,7 +92,7 @@ divisions = [ateams, bplus, bteams, cteams]
 rr_divs = []
 for d in divisions:
     print(d)
-    rr_divs.append(roundRobin.create_schedule(d))
+    rr_divs.append(roundrobin(d))
 
 dates = [date(2018, 2, 11),
          date(2018, 2, 18),
