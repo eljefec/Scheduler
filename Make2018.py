@@ -45,66 +45,70 @@ def roundrobin(a):
         filtered.append(new_round)
     return filtered
 
-bbgc = Gym('BBGC', [1, 2, 3, 4])
-tyee = Gym('Tyee', [1, 2])
+def main():
+    bbgc = Gym('BBGC', [1, 2, 3, 4])
+    tyee = Gym('Tyee', [1, 2])
 
-ateams = []
+    ateams = []
 
-better = Team('Better Lucky Than Good', Div.A)
-better.request_time(date(2018, 2, 11), Time.EARLY)
-better.request_time(date(2018, 3, 18), Time.EARLY)
+    better = Team('Better Lucky Than Good', Div.A)
+    better.request_time(date(2018, 2, 11), Time.EARLY)
+    better.request_time(date(2018, 3, 18), Time.EARLY)
 # TODO: Fill rest of requests
 
-diva = Team('Diva Setters', Div.A)
-diva.prefer_time(Time.LATE)
+    diva = Team('Diva Setters', Div.A)
+    diva.prefer_time(Time.LATE)
 
-up = Team('On the Up and Up', Div.A)
-up.request_bye(date(2018, 3, 18))
-up.request_bye(date(2018, 3, 25))
+    up = Team('On the Up and Up', Div.A)
+    up.request_bye(date(2018, 3, 18))
+    up.request_bye(date(2018, 3, 25))
 
-fambam = Team('FamBam', Div.A)
-fambam.prefer_gym(bbgc)
-fambam.prefer_time(Time.LATE)
+    fambam = Team('FamBam', Div.A)
+    fambam.prefer_gym(bbgc)
+    fambam.prefer_time(Time.LATE)
 
-ateams.append(better)
-ateams.append(diva)
-ateams.append(up)
-ateams.append(fambam)
+    ateams.append(better)
+    ateams.append(diva)
+    ateams.append(up)
+    ateams.append(fambam)
 
-ateams = []
-for i in range(1, 8):
-    ateams.append(Team('A' + str(i), Div.A))
+    ateams = []
+    for i in range(1, 8):
+        ateams.append(Team('A' + str(i), Div.A))
 
-bplus = []
-for i in range(1, 8):
-    bplus.append(Team('B+' + str(i), Div.BPlus))
+    bplus = []
+    for i in range(1, 8):
+        bplus.append(Team('B+' + str(i), Div.BPlus))
 
-bteams = []
-for i in range(1, 9):
-    bteams.append(Team('B' + str(i), Div.B))
+    bteams = []
+    for i in range(1, 9):
+        bteams.append(Team('B' + str(i), Div.B))
 
-cteams = []
-for i in range(1, 5):
-    cteams.append(Team('C' + str(i), Div.C))
+    cteams = []
+    for i in range(1, 5):
+        cteams.append(Team('C' + str(i), Div.C))
 
-divisions = [ateams, bplus, bteams, cteams]
+    divisions = [ateams, bplus, bteams, cteams]
 
-rr_divs = []
-for d in divisions:
-    print(d)
-    rr_divs.append(roundrobin(d))
+    rr_divs = []
+    for d in divisions:
+        print(d)
+        rr_divs.append(roundrobin(d))
 
-dates = [date(2018, 2, 11),
-         date(2018, 2, 18),
-         date(2018, 3, 4)]
+    dates = [date(2018, 2, 11),
+             date(2018, 2, 18),
+             date(2018, 3, 4)]
 
-times = [time(1, 30),
-         time(3, 15)]
+    times = [time(1, 30),
+             time(3, 15)]
 
-gyms = [bbgc, tyee]
+    gyms = [bbgc, tyee]
 
-slots = make_slots(dates, gyms, times)
+    slots = make_slots(dates, gyms, times)
 
-fill_slots(slots, rr_divs)
-for slot in slots:
-    print(slot)
+    fill_slots(slots, rr_divs)
+    for slot in slots:
+        print(slot)
+
+if __name__ == '__main__':
+    main()
