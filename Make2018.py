@@ -10,8 +10,8 @@ def make_slots(dates, gyms, times):
 
     for d in dates:
         for g in gyms:
-            for t in times:
-                for c in g.courts:
+            for c in g.courts:
+                for t in times:
                     slots.append(Slot(d, g, c, t))
 
     return slots
@@ -151,6 +151,9 @@ def main():
     cur_date = date(1867, 7, 1)
 
     fill_slots(slots, rr_divs)
+
+    slots.sort(key=lambda slot: (slot.date, slot.gym, slot.start, slot.court))
+
     for slot in slots:
         if cur_date != slot.date:
             print(slot.date)
