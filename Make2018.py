@@ -102,7 +102,7 @@ def make_divisions(gyms):
     fambam.prefer_gym(bbgc)
     fambam.prefer_time(Time.LATE)
 
-    return divisions
+    return divisions, teams
 
 def make_gyms():
     bbgc = Gym('BBGC', [1, 2, 3, 4])
@@ -110,10 +110,29 @@ def make_gyms():
 
     return {'bbgc': bbgc, 'tyee': tyee}
 
+def get_teams_with_byes(slots, all_teams):
+    date_teams_dict = {}
+    for slot in slots:
+        if slot.date not in date_teams_dict:
+            date_teams_dict[slot.date] = set()
+        teams_set = date_teams_dict[slot.date]
+        teams_set.add(slot.teamA)
+        teams_set.add(slot.teamB)
+
+    date_teams_with_byes = {}
+    for date, teams_set in date_teams_dict.items():
+        teams_with_byes = []
+        for t in all_teams.values():
+            if t not in teams_set:
+                teams_with_byes.append(t)
+        date_teams_with_byes[date] = teams_with_byes
+
+    return date_teams_with_byes
+
 def main():
     gyms = make_gyms()
 
-    divisions = make_divisions(gyms)
+    divisions, teams = make_divisions(gyms)
 
     rr_divs = []
     for d in divisions:
@@ -132,6 +151,9 @@ def main():
     fill_slots(slots, rr_divs)
     for slot in slots:
         print(slot)
+
+    date_teams_with_byes = get_teams_with_byes(slots, teams)
+    print(date_teams_with_byes)
 
 if __name__ == '__main__':
     main()
