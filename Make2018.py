@@ -158,14 +158,18 @@ def main():
     schedule = Schedule(slots, teams)
     schedule.assign_refs()
 
+    date_teams_with_byes = get_teams_with_byes(slots, teams)
+
     for slot in slots:
         if cur_date != slot.date:
             print(slot.date)
+            print('byes:', date_teams_with_byes[slot.date])
             cur_date = slot.date
         print(slot)
 
-    date_teams_with_byes = get_teams_with_byes(slots, teams)
-    print(date_teams_with_byes)
+    print('byes:')
+    for d, teams_with_byes in date_teams_with_byes.items():
+        print(d, teams_with_byes)
 
 if __name__ == '__main__':
     main()
