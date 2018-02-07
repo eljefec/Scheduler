@@ -1,4 +1,5 @@
 from Gym import *
+from Schedule import *
 from Slot import *
 from Team import *
 from datetime import *
@@ -153,6 +154,9 @@ def main():
     fill_slots(slots, rr_divs)
 
     slots.sort(key=lambda slot: (slot.date, slot.gym, slot.start, slot.court))
+
+    schedule = Schedule(slots, teams)
+    schedule.assign_refs()
 
     for slot in slots:
         if cur_date != slot.date:
