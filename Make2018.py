@@ -148,8 +148,13 @@ def main():
 
     slots = make_slots(dates, list(gyms.values()), times)
 
+    cur_date = date(1867, 7, 1)
+
     fill_slots(slots, rr_divs)
     for slot in slots:
+        if cur_date != slot.date:
+            print(slot.date)
+            cur_date = slot.date
         print(slot)
 
     date_teams_with_byes = get_teams_with_byes(slots, teams)

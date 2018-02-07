@@ -10,4 +10,4 @@ class Slot:
         self.ref = None
 
     def __repr__(self):
-        return self.gym.name + ' ' + str(self.court) + ' ' + str(self.date) + ' ' + str(self.start) + ' ' + str(self.teamA) + ' vs. ' + str(self.teamB)
+        return self.gym.name + ' ' + str(self.court) + ' ' + str(self.start) + ' ' + str(self.teamA) + ' vs. ' + str(self.teamB)
